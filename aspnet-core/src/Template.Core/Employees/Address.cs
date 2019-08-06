@@ -1,34 +1,52 @@
 ﻿using Abp.Domain.Values;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Template.Employees
 {
+
     public class Address : ValueObject,ICloneable
     {
-
-        public string FullAddress { get; }
-
-        public int Number { get; }
         
+  
+        private string _fullAddress;
+        private int _appartmentNumber;
 
+        public string FullAddress
+        {
+            get { return _fullAddress; }
+        }
+
+        public int AppartmentNumber
+        {
+            get { return _appartmentNumber; }
+        }
+
+
+
+        public Address()
+        {
+
+        }
         public Address(
             string FullAddress,
-            int number)
+            int AppartmentNumber)
         {
-            this.FullAddress = FullAddress;
-            Number = number;
+            _fullAddress = FullAddress;
+            _appartmentNumber = AppartmentNumber;
         }
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return FullAddress;
-            yield return Number;
+            yield return AppartmentNumber;
         }
 
         public object Clone()
         {
-            return new Address(FullAddress, Number);
+            return new Address(FullAddress, AppartmentNumber);
         }
     }
 }

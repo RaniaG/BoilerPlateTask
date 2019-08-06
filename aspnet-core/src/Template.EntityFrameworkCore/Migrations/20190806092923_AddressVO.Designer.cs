@@ -10,8 +10,8 @@ using Template.EntityFrameworkCore;
 namespace Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    [Migration("20190805152257_newRole")]
-    partial class newRole
+    [Migration("20190806092923_AddressVO")]
+    partial class AddressVO
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1036,6 +1036,52 @@ namespace Template.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("Template.Departments.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("ManagerId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManagerId")
+                        .IsUnique();
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("Template.Employees.Employee", b =>
+                {
+                    b.Property<long>("Id");
+
+                    b.Property<Guid>("DepartmentId");
+
+                    b.Property<double>("Salary");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Template.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
@@ -1234,6 +1280,48 @@ namespace Template.Migrations
                     b.HasOne("Template.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("Template.Departments.Department", b =>
+                {
+                    b.HasOne("Template.Employees.Employee", "Manager")
+                        .WithOne("ManagedDepartment")
+                        .HasForeignKey("Template.Departments.Department", "ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Template.Employees.Employee", b =>
+                {
+                    b.HasOne("Template.Departments.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Template.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Template.Employees.Address", "Address", b1 =>
+                        {
+                            b1.Property<long>("EmployeeId");
+
+                            b1.Property<int>("AppartmentNumber")
+                                .HasColumnName("AppartmentNumber");
+
+                            b1.Property<string>("FullAddress")
+                                .HasColumnName("FullAddress")
+                                .HasMaxLength(600);
+
+                            b1.HasKey("EmployeeId");
+
+                            b1.ToTable("Employees");
+
+                            b1.HasOne("Template.Employees.Employee")
+                                .WithOne("Address")
+                                .HasForeignKey("Template.Employees.Address", "EmployeeId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("Template.MultiTenancy.Tenant", b =>

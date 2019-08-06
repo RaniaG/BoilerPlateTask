@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Template.EntityFrameworkCore;
 
 namespace Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    partial class TemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806090413_EmployeeDepartmentTables")]
+    partial class EmployeeDepartmentTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1286,27 +1288,6 @@ namespace Template.Migrations
                         .WithOne("ManagedDepartment")
                         .HasForeignKey("Template.Departments.Department", "ManagerId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("Template.Departments.Location", "Location", b1 =>
-                        {
-                            b1.Property<Guid>("DepartmentId");
-
-                            b1.Property<string>("Building")
-                                .HasColumnName("Building")
-                                .HasMaxLength(50);
-
-                            b1.Property<int>("Floor")
-                                .HasColumnName("Floor");
-
-                            b1.HasKey("DepartmentId");
-
-                            b1.ToTable("Departments");
-
-                            b1.HasOne("Template.Departments.Department")
-                                .WithOne("Location")
-                                .HasForeignKey("Template.Departments.Location", "DepartmentId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
@@ -1324,13 +1305,6 @@ namespace Template.Migrations
                     b.OwnsOne("Template.Employees.Address", "Address", b1 =>
                         {
                             b1.Property<long>("EmployeeId");
-
-                            b1.Property<int>("AppartmentNumber")
-                                .HasColumnName("AppartmentNumber");
-
-                            b1.Property<string>("FullAddress")
-                                .HasColumnName("FullAddress")
-                                .HasMaxLength(600);
 
                             b1.HasKey("EmployeeId");
 

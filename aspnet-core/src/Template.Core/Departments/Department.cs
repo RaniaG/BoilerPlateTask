@@ -13,10 +13,12 @@ namespace Template.Departments
         [Required]
         public string Name { get; set; }
 
-        [Required]
+        [InverseProperty("ManagedDepartment")]
         public Employee Manager { get; set; }
         [ForeignKey("Manager")]
-        public Guid ManagerId { get; set; }
+        public long ManagerId { get; set; }
+
+        public Location Location { get; set; }
 
         public List<Employee> Employees { get; set; }
 
