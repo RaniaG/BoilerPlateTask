@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Template.Migrations
 {
-    public partial class EmployeeDepartmentTables : Migration
+    public partial class EmpDeptTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,29 +12,37 @@ namespace Template.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
-                    DepartmentId = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    FullAddress = table.Column<string>(maxLength: 600, nullable: true),
+                    AppartmentNumber = table.Column<int>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: false),
                     Salary = table.Column<double>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    LastModifierUserId = table.Column<long>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    DeleterUserId = table.Column<long>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_AbpUsers_Id",
-                        column: x => x.Id,
-                        principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
-                    ManagerId = table.Column<long>(nullable: false),
+                    ManagerId = table.Column<int>(nullable: false),
+                    Building = table.Column<string>(maxLength: 50, nullable: true),
+                    Floor = table.Column<int>(nullable: false),
                     LastModifierUserId = table.Column<long>(nullable: true),
                     LastModificationTime = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -68,7 +77,7 @@ namespace Template.Migrations
                 column: "DepartmentId",
                 principalTable: "Departments",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

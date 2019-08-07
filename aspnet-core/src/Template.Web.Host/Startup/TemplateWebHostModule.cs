@@ -5,6 +5,7 @@ using Abp.Reflection.Extensions;
 using Template.Configuration;
 using Abp.Zero.Configuration;
 using Abp.MultiTenancy;
+using Abp.AspNetCore.Configuration;
 
 namespace Template.Web.Host.Startup
 {

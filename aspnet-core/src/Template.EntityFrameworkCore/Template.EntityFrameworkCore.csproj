@@ -17,6 +17,14 @@
     <Compile Remove="Migrations\20190806085713_EmployeeDepartmentTables.Designer.cs" />
     <Compile Remove="Migrations\20190806091234_AddressVO.cs" />
     <Compile Remove="Migrations\20190806091234_AddressVO.Designer.cs" />
+    <Compile Remove="Migrations\20190806132911_EntitiesTables.cs" />
+    <Compile Remove="Migrations\20190806132911_EntitiesTables.Designer.cs" />
+    <Compile Remove="Migrations\20190806133054_dsfdfgdfg.cs" />
+    <Compile Remove="Migrations\20190806133054_dsfdfgdfg.Designer.cs" />
+    <Compile Remove="Migrations\20190806141054_EmpDeptTables.cs" />
+    <Compile Remove="Migrations\20190806141054_EmpDeptTables.Designer.cs" />
+    <Compile Remove="Migrations\20190806141142_EmpDeptTables.cs" />
+    <Compile Remove="Migrations\20190806141142_EmpDeptTables.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />

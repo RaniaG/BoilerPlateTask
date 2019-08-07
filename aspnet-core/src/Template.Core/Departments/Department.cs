@@ -8,7 +8,7 @@ using System.Text;
 using Template.Employees;
 namespace Template.Departments
 {
-    public class Department:Entity<Guid>, IModificationAudited, IDeletionAudited
+    public class Department:Entity, IModificationAudited, IDeletionAudited,ISoftDelete
     {
         [Required]
         public string Name { get; set; }
@@ -16,7 +16,7 @@ namespace Template.Departments
         [InverseProperty("ManagedDepartment")]
         public Employee Manager { get; set; }
         [ForeignKey("Manager")]
-        public long ManagerId { get; set; }
+        public int ManagerId { get; set; }
 
         public Location Location { get; set; }
 

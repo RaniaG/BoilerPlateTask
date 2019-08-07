@@ -10,8 +10,8 @@ using Template.EntityFrameworkCore;
 namespace Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    [Migration("20190806092923_AddressVO")]
-    partial class AddressVO
+    [Migration("20190806153235_DeptIdNullableInEmpTable")]
+    partial class DeptIdNullableInEmpTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1038,8 +1038,9 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Departments.Department", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long?>("DeleterUserId");
 
@@ -1051,7 +1052,7 @@ namespace Template.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<long>("ManagerId");
+                    b.Property<int>("ManagerId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -1066,9 +1067,27 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
                 {
-                    b.Property<long>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("DepartmentId");
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int?>("DepartmentId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name");
 
                     b.Property<double>("Salary");
 
@@ -1288,23 +1307,42 @@ namespace Template.Migrations
                         .WithOne("ManagedDepartment")
                         .HasForeignKey("Template.Departments.Department", "ManagerId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("Template.Departments.Location", "Location", b1 =>
+                        {
+                            b1.Property<int>("DepartmentId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Building")
+                                .HasColumnName("Building")
+                                .HasMaxLength(50);
+
+                            b1.Property<int>("Floor")
+                                .HasColumnName("Floor");
+
+                            b1.HasKey("DepartmentId");
+
+                            b1.ToTable("Departments");
+
+                            b1.HasOne("Template.Departments.Department")
+                                .WithOne("Location")
+                                .HasForeignKey("Template.Departments.Location", "DepartmentId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
                 {
                     b.HasOne("Template.Departments.Department", "Department")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Template.Authorization.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DepartmentId");
 
                     b.OwnsOne("Template.Employees.Address", "Address", b1 =>
                         {
-                            b1.Property<long>("EmployeeId");
+                            b1.Property<int>("EmployeeId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<int>("AppartmentNumber")
                                 .HasColumnName("AppartmentNumber");

@@ -1036,8 +1036,9 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Departments.Department", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long?>("DeleterUserId");
 
@@ -1049,7 +1050,7 @@ namespace Template.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<long>("ManagerId");
+                    b.Property<int>("ManagerId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -1064,9 +1065,27 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
                 {
-                    b.Property<long>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("DepartmentId");
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<int?>("DepartmentId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name");
 
                     b.Property<double>("Salary");
 
@@ -1289,7 +1308,9 @@ namespace Template.Migrations
 
                     b.OwnsOne("Template.Departments.Location", "Location", b1 =>
                         {
-                            b1.Property<Guid>("DepartmentId");
+                            b1.Property<int>("DepartmentId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<string>("Building")
                                 .HasColumnName("Building")
@@ -1313,17 +1334,13 @@ namespace Template.Migrations
                 {
                     b.HasOne("Template.Departments.Department", "Department")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Template.Authorization.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DepartmentId");
 
                     b.OwnsOne("Template.Employees.Address", "Address", b1 =>
                         {
-                            b1.Property<long>("EmployeeId");
+                            b1.Property<int>("EmployeeId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<int>("AppartmentNumber")
                                 .HasColumnName("AppartmentNumber");

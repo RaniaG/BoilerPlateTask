@@ -1,4 +1,5 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services;
+using Abp.AutoMapper;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Template.Authorization;
@@ -8,6 +9,7 @@ namespace Template
     [DependsOn(
         typeof(TemplateCoreModule), 
         typeof(AbpAutoMapperModule))]
+    
     public class TemplateApplicationModule : AbpModule
     {
         public override void PreInitialize()
