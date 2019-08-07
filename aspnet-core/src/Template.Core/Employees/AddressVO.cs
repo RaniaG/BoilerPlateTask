@@ -11,8 +11,9 @@ namespace Template.Employees
     public class Address : ValueObject,ICloneable
     {
         
-  
+        [Required]
         private string _fullAddress;
+        [Required]
         private int _appartmentNumber;
 
         public string FullAddress
@@ -35,6 +36,9 @@ namespace Template.Employees
             string FullAddress,
             int AppartmentNumber)
         {
+            if (string.IsNullOrEmpty(FullAddress))
+                throw new ArgumentNullException();
+
             _fullAddress = FullAddress;
             _appartmentNumber = AppartmentNumber;
         }

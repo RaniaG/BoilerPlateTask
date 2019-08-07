@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Template.EntityFrameworkCore;
 
 namespace Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    partial class TemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806094754_EmployeeAddressRequired")]
+    partial class EmployeeAddressRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1036,9 +1038,8 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Departments.Department", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<long?>("DeleterUserId");
 
@@ -1050,7 +1051,7 @@ namespace Template.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<int>("ManagerId");
+                    b.Property<long>("ManagerId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -1065,27 +1066,9 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<long>("Id");
 
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<int?>("DepartmentId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Name");
+                    b.Property<Guid?>("DepartmentId");
 
                     b.Property<double>("Salary");
 
@@ -1308,12 +1291,9 @@ namespace Template.Migrations
 
                     b.OwnsOne("Template.Departments.Location", "Location", b1 =>
                         {
-                            b1.Property<int>("DepartmentId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                            b1.Property<Guid>("DepartmentId");
 
                             b1.Property<string>("Building")
-                                .IsRequired()
                                 .HasColumnName("Building")
                                 .HasMaxLength(50);
 
@@ -1337,11 +1317,14 @@ namespace Template.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
 
+                    b.HasOne("Template.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("Template.Employees.Address", "Address", b1 =>
                         {
-                            b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                            b1.Property<long>("EmployeeId");
 
                             b1.Property<int>("AppartmentNumber")
                                 .HasColumnName("AppartmentNumber");

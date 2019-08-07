@@ -14,6 +14,7 @@ namespace Template.Departments
         public string Name { get; set; }
 
         [InverseProperty("ManagedDepartment")]
+        [Required]
         public Employee Manager { get; set; }
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }

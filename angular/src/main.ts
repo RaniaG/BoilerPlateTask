@@ -16,6 +16,7 @@ if (environment.production) {
 
 const bootstrap = () => {
     return platformBrowserDynamic().bootstrapModule(RootModule);
+
 };
 
 /* "Hot Module Replacement" is enabled as described on
@@ -32,3 +33,4 @@ if (environment.hmr) {
 } else {
     bootstrap(); // Regular bootstrap
 }
+
