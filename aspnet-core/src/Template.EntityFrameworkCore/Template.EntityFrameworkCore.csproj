@@ -25,6 +25,7 @@
     <Compile Remove="Migrations\20190806141054_EmpDeptTables.Designer.cs" />
     <Compile Remove="Migrations\20190806141142_EmpDeptTables.cs" />
     <Compile Remove="Migrations\20190806141142_EmpDeptTables.Designer.cs" />
+    <Compile Remove="Migrations\20190807140612_ReCreatedDb.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />

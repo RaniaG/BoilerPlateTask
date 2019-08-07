@@ -12,7 +12,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
   animations: [appModuleAnimation()]
 })
 export class EmployeesComponent extends PagedListingComponentBase<EmployeeDTO> {
-  users: EmployeeDTO[] = [];
+  employees: EmployeeDTO[] = [];
   keyword = '';
   isActive: boolean | null;
 
@@ -24,7 +24,12 @@ export class EmployeesComponent extends PagedListingComponentBase<EmployeeDTO> {
     super(injector);
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    throw new Error("Method not implemented.");
+    this._empService
+      .getAll(pageNumber)
+      .subscribe((result) => {
+        debugger;
+        this.employees = result.items;
+      });
   }
 
 

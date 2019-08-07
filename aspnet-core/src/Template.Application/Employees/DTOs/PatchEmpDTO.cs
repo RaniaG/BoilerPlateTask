@@ -12,5 +12,6 @@ namespace Template.Employees.DTOs
         public string Name { get; set; }
         public double Salary { get; set; }
         public string Title { get; set; }
+        public AddressDTO Address { get; set; }
     }
 }

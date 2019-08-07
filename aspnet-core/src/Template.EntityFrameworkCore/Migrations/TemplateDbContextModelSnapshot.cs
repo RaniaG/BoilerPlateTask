@@ -1305,30 +1305,6 @@ namespace Template.Migrations
                         .WithOne("ManagedDepartment")
                         .HasForeignKey("Template.Departments.Department", "ManagerId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("Template.Departments.Location", "Location", b1 =>
-                        {
-                            b1.Property<int>("DepartmentId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("Building")
-                                .IsRequired()
-                                .HasColumnName("Building")
-                                .HasMaxLength(50);
-
-                            b1.Property<int>("Floor")
-                                .HasColumnName("Floor");
-
-                            b1.HasKey("DepartmentId");
-
-                            b1.ToTable("Departments");
-
-                            b1.HasOne("Template.Departments.Department")
-                                .WithOne("Location")
-                                .HasForeignKey("Template.Departments.Location", "DepartmentId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("Template.Employees.Employee", b =>

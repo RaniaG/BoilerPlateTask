@@ -7,7 +7,7 @@ using Template.Employees;
 
 namespace Template.Departments
 {
-    interface IDepartmentDomainService: IDomainService
+    public interface IDepartmentDomainService: IDomainService
     {
         List<Employee> GetEmployees(int DeptId);
 

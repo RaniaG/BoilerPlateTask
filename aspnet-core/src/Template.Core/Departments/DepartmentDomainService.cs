@@ -7,7 +7,7 @@ using Template.Employees;
 
 namespace Template.Departments
 {
-    class DepartmentDomainService : IDepartmentDomainService
+    public class DepartmentDomainService : IDepartmentDomainService
     {
         private IRepository<Employee> _empRepo { get; set; }
         private IRepository<Department> _depRepo { get; set; }
@@ -33,7 +33,8 @@ namespace Template.Departments
 
         public List<Employee> GetEmployees(int DeptId)
         {
-           Department dept= _depRepo.Get(DeptId);
+            Department dept = _depRepo.GetAllIncluding(d => d.Employees)
+                 .First(d => d.Id == DeptId);
            return dept.Employees;
         }
     }

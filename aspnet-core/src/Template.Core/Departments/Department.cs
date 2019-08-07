@@ -19,7 +19,6 @@ namespace Template.Departments
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
 
-        public Location Location { get; set; }
 
         public List<Employee> Employees { get; set; }
 

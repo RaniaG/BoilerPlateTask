@@ -19,6 +19,7 @@ namespace Template.Employees
         public string FullAddress
         {
             get { return _fullAddress; }
+            
         }
 
         public int AppartmentNumber

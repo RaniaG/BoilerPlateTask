@@ -14,7 +14,6 @@ namespace Template.Departments.DTOs
         public string Name { get; set; }
         [Required]
         public int ManagerId { get; set; }
-        //public Location Location { get; set; }
 
     }
 }

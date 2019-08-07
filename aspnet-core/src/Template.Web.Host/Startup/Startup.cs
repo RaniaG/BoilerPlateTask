@@ -36,7 +36,10 @@ namespace Template.Web.Host.Startup
             // MVC
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
-            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(o =>
+            o.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
+
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
@@ -113,7 +116,6 @@ namespace Template.Web.Host.Startup
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)

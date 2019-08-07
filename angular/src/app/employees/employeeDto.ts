@@ -1,12 +1,14 @@
 export interface IEmployeeDTO {
     name: string;
     salary: string;
-    address: { fulladdress: string, appartmentnumber: number }
+    address: { fulladdress: string, appartmentnumber: number };
+    departmentId: number;
     id: number | undefined;
 }
 export class EmployeeDTO implements IEmployeeDTO {
     name: string; salary: string;
     address: { fulladdress: string; appartmentnumber: number; };
+    departmentId: number;
     id: number;
 
     constructor(data?: IEmployeeDTO) {

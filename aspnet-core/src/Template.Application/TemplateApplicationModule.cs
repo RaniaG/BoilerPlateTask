@@ -3,6 +3,8 @@ using Abp.AutoMapper;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Template.Authorization;
+using Template.Employees;
+using Template.Employees.DTOs;
 
 namespace Template
 {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Template.Migrations
 {
-    public partial class EmpDeptTables : Migration
+    public partial class ReCreatedDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,9 +15,9 @@ namespace Template.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    FullAddress = table.Column<string>(maxLength: 600, nullable: true),
+                    FullAddress = table.Column<string>(maxLength: 600, nullable: false),
                     AppartmentNumber = table.Column<int>(nullable: false),
-                    DepartmentId = table.Column<int>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: true),
                     Salary = table.Column<double>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
@@ -41,7 +41,7 @@ namespace Template.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     ManagerId = table.Column<int>(nullable: false),
-                    Building = table.Column<string>(maxLength: 50, nullable: true),
+                    Building = table.Column<string>(maxLength: 50, nullable: false),
                     Floor = table.Column<int>(nullable: false),
                     LastModifierUserId = table.Column<long>(nullable: true),
                     LastModificationTime = table.Column<DateTime>(nullable: true),
@@ -57,7 +57,7 @@ namespace Template.Migrations
                         column: x => x.ManagerId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -77,7 +77,7 @@ namespace Template.Migrations
                 column: "DepartmentId",
                 principalTable: "Departments",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.NoAction);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
