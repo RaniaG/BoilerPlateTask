@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Template.EntityFrameworkCore;
 
 namespace Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    partial class TemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806094604_EmployeeDepartmentNullable")]
+    partial class EmployeeDepartmentNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1049,7 +1051,7 @@ namespace Template.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<Guid>("ManagerId");
+                    b.Property<long>("ManagerId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -1064,8 +1066,7 @@ namespace Template.Migrations
 
             modelBuilder.Entity("Template.Employees.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("Id");
 
                     b.Property<Guid?>("DepartmentId");
 
@@ -1293,7 +1294,6 @@ namespace Template.Migrations
                             b1.Property<Guid>("DepartmentId");
 
                             b1.Property<string>("Building")
-                                .IsRequired()
                                 .HasColumnName("Building")
                                 .HasMaxLength(50);
 
@@ -1317,15 +1317,19 @@ namespace Template.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
 
+                    b.HasOne("Template.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("Template.Employees.Address", "Address", b1 =>
                         {
-                            b1.Property<Guid>("EmployeeId");
+                            b1.Property<long>("EmployeeId");
 
                             b1.Property<int>("AppartmentNumber")
                                 .HasColumnName("AppartmentNumber");
 
                             b1.Property<string>("FullAddress")
-                                .IsRequired()
                                 .HasColumnName("FullAddress")
                                 .HasMaxLength(600);
 

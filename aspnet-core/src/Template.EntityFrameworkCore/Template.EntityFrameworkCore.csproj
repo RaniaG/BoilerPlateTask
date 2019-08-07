@@ -17,6 +17,26 @@
     <Compile Remove="Migrations\20190806085713_EmployeeDepartmentTables.Designer.cs" />
     <Compile Remove="Migrations\20190806091234_AddressVO.cs" />
     <Compile Remove="Migrations\20190806091234_AddressVO.Designer.cs" />
+    <Compile Remove="Migrations\20190806105604_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806105604_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806105727_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806105727_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806112844_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806112844_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806113337_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806113337_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806114149_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806114149_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806114412_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806114412_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806115349_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806115349_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806115646_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806115646_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806131038_changeEmployeeTableStructure.cs" />
+    <Compile Remove="Migrations\20190806131038_changeEmployeeTableStructure.Designer.cs" />
+    <Compile Remove="Migrations\20190806131324_changedEmpTableStructure.cs" />
+    <Compile Remove="Migrations\20190806131324_changedEmpTableStructure.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />

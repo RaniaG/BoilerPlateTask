@@ -9,13 +9,21 @@ using Template.Departments;
 
 namespace Template.Employees
 {
-    public class Employee:Entity<Guid>
+    class EmpOneToOne : Entity<long>
     {
+        [ForeignKey(nameof(User))]
+        public override long Id { get => base.Id; set => base.Id = value; }
+        public User User { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+
         [Required]
         public Address Address { get; set; }
-        
+
         public Department Department { get; set; }
-        
+
         public Guid? DepartmentId { get; set; }
 
         [InverseProperty("Manager")]
@@ -25,11 +33,5 @@ namespace Template.Employees
         public Double Salary { get; set; }
         [Required]
         public string Title { get; set; }
-
-        public Employee()
-        {
-
-        }
-
     }
 }

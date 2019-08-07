@@ -31,6 +31,8 @@ namespace Template.Departments
         }
         public Location(string building,int floor)
         {
+            if (string.IsNullOrEmpty(building))
+                throw new ArgumentNullException();
             _building = building;
             _floor = floor;
         }

@@ -20,10 +20,13 @@ namespace Template.EntityFrameworkCore
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            
+
             //Address Value Object configuration
             modelBuilder.Entity<Employee>().OwnsOne(m => m.Address, a =>
             {
-                a.Property(p => p.FullAddress).HasMaxLength(600)
+                a.Property(p => p.FullAddress).HasMaxLength(600).IsRequired()
                     .HasColumnName("FullAddress");
                 a.Property(p => p.AppartmentNumber)
                     .HasColumnName("AppartmentNumber");
@@ -31,12 +34,12 @@ namespace Template.EntityFrameworkCore
             //Location Value Object configuration
             modelBuilder.Entity<Department>().OwnsOne(m => m.Location, a =>
             {
-                a.Property(p => p.Building).HasMaxLength(50)
+                a.Property(p => p.Building).HasMaxLength(50).IsRequired()
                     .HasColumnName("Building");
                 a.Property(p => p.Floor)
                     .HasColumnName("Floor");
             });
-            base.OnModelCreating(modelBuilder);
+            
         }
     }
 }
