@@ -5,9 +5,11 @@ using Template.Authorization.Users;
 using Template.MultiTenancy;
 using Template.Employees;
 using Template.Departments;
+using Abp.Domain.Repositories;
 
 namespace Template.EntityFrameworkCore
 {
+
     public class TemplateDbContext : AbpZeroDbContext<Tenant, Role, User, TemplateDbContext>
     {
         /* Define a DbSet for each entity of the application */

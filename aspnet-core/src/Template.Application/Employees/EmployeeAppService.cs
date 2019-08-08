@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Abp.ObjectMapping;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch.Operations;
+using System.Linq;
+using Template.Departments;
 
 namespace Template.Employees
 {
@@ -17,16 +19,31 @@ namespace Template.Employees
     {
         
         private readonly IObjectMapper _objectMapper;
-        public EmployeeAppService(IRepository<Employee,int> emprepository, IObjectMapper objectMapper)
+        private readonly IDepartmentDomainService deptDomainService;
+
+        public EmployeeAppService(IRepository<Employee,int> emprepository,
+            IDepartmentDomainService deptDomainService
+            , IObjectMapper objectMapper)
             : base(emprepository)
         {
        
             _objectMapper = objectMapper;
+            this.deptDomainService = deptDomainService;
         }
 
-
+        protected override IQueryable<Employee> CreateFilteredQuery(GetEmpFilterDTO input)
+        {
+            IQueryable<Employee> emps = Repository.GetAll();
+            if (!string.IsNullOrEmpty(input.Name))
+                emps = emps.Where(e => e.Name.ToLower().Contains( input.Name.ToLower()));
+            if (input.DepartmentId != null)
+                emps = emps.Where(e => e.DepartmentId == input.DepartmentId);
+            return emps;
+        }
         public override async Task<GetAllEmpDTO> Update(CreateEmpDTO input)
         {
+            if (input.DepartmentId!=null&&!deptDomainService.DepartmentExists((int)input.DepartmentId))
+                throw new ArgumentException(); 
             CheckUpdatePermission();
 
             Employee entity = await GetEntityByIdAsync(input.Id);
@@ -64,6 +81,9 @@ namespace Template.Employees
             
             return  _objectMapper.Map<GetAllEmpDTO>(resultEmp);
         }
+
+       
+        
     }
   
 }
