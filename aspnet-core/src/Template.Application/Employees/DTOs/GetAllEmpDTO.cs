@@ -13,7 +13,7 @@ namespace Template.Employees.DTOs
         public string Name { get; set; }
         public Address Address { get; set; }
         //public Department Department { get; set; }
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
         public double Salary { get; set; }
         public string Title { get; set; }
 

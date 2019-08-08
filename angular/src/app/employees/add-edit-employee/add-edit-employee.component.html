@@ -1,0 +1,73 @@
+<form autocomplete="off" #createUserModal="ngForm" [formGroup]="employeeForm" (ngSubmit)="save()">
+    <h1 mat-dialog-title>Create New Employee</h1>
+    <mat-dialog-content style="width:800px;height:300px;">
+      <mat-tab-group>
+        <mat-tab label="User Details">
+          <br />
+          <div class="row-fluid">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input
+                  matInput
+                 
+                  placeholder="Full Name"
+                  formControlName="name"
+                                 />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  
+                  placeholder="Salary"
+                  formControlName="salary"
+                                 />
+              </mat-form-field>
+              
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <input
+                  matInput
+                  
+                  placeholder="Title"
+                  formControlName="title"
+                                 />
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+        <!-- <mat-tab [label]="'UserRoles' | localize">
+          <br />
+          <div class="row-fluid">
+            <ng-template ngFor let-role [ngForOf]="roles">
+              <div class="col-sm-6">
+                <div class="checkbox-wrapper">
+                  <mat-checkbox
+                    [checked]="isRoleChecked(role.normalizedName)"
+                    (change)="onRoleChange(role, $event)"
+                  >
+                    {{ role.name }}
+                  </mat-checkbox>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </mat-tab> -->
+      </mat-tab-group>
+    </mat-dialog-content>
+    <!-- <div mat-dialog-actions align="end">
+      <button mat-button type="button" [disabled]="saving" (click)="close(false)">
+        Canel
+      </button>
+      <button
+        mat-flat-button
+        type="submit"
+        flex="15"
+        color="primary"
+        [disabled]="!createUserModal.form.valid || saving"
+      >
+        Save
+      </button>
+    </div> -->
+  </form>
+  

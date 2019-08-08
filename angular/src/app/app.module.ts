@@ -41,6 +41,7 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { AddEditEmployeeComponent } from './employees/add-edit-employee/add-edit-employee.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { EmployeesComponent } from './employees/employees.component';
     ChangePasswordComponent,
     ResetPasswordDialogComponent,
     EmployeesComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    AddEditEmployeeComponent
   ],
   imports: [
     CommonModule,
