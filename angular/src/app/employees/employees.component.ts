@@ -17,7 +17,6 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   employees: GetAllEmpDTO[] = [];
   keyword = '';
   department: number;
-  // departments:Department
 
   constructor(
     injector: Injector,
@@ -27,14 +26,13 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
     super(injector);
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._empService.getAll("", undefined, 0, 10, "")
+    this._empService.getAll()
       .pipe(
         finalize(() => {
           finishedCallback();
         })
       )
       .subscribe((result: PagedResultDtoOfGetAllEmpDTO) => {
-        debugger;
         this.employees = result.items;
         this.showPaging(result, pageNumber);
       });

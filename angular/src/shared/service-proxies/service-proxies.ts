@@ -744,7 +744,8 @@ export class EmployeeServiceProxy {
      * @param sorting (optional) 
      * @return Success
      */
-    getAll(name: string | null | undefined, departmentId: number | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined, sorting: string | null | undefined): Observable<PagedResultDtoOfGetAllEmpDTO> {
+    getAll(name?: string | null | undefined, departmentId?: number | null | undefined, skipCount?: number | null | undefined,
+        maxResultCount?: number | null | undefined, sorting?: string | null | undefined): Observable<PagedResultDtoOfGetAllEmpDTO> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&";

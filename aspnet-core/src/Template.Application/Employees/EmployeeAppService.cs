@@ -32,6 +32,33 @@ namespace Template.Employees
             this.deptDomainService = deptDomainService;
         }
        
+        protected override IQueryable<Employee> ApplyPaging(IQueryable<Employee> query, GetEmpFilterDTO input)
+        {
+            if (input.SkipCount != 0)
+                query = query.Skip(input.SkipCount);
+            if (input.MaxResultCount > 0)
+                query = query.Take(input.MaxResultCount);
+            return query;
+
+            //Try to use paging if available
+            //var pagedInput = input as IPagedResultRequest;
+            //if (pagedInput != null)
+            //{
+
+            //    return query.PageBy(pagedInput);
+            //}
+
+            ////Try to limit query result if available
+            //var limitedInput = input as ILimitedResultRequest;
+            //if (limitedInput != null)
+            //{
+            //    return query.Take(limitedInput.MaxResultCount);
+            //}
+
+            ////No paging
+            //return query;
+        }
+        
         protected override IQueryable<Employee> CreateFilteredQuery(GetEmpFilterDTO input)
         {
             IQueryable<Employee> emps = Repository.GetAll();
