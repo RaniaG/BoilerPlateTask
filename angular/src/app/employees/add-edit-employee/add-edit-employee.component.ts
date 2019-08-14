@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Inject } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TemplateValidators, TemplateStateMatcher } from '@shared/Helpers';
 import { AppComponentBase } from '@shared/app-component-base';
 import { EmployeeServiceProxy, DepartmentServiceProxy, PagedResultDtoOfGetAllDeptDTO, GetAllDeptDTO, CreateEmpDTO } from '@shared/service-proxies/service-proxies';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-add-edit-employee',
@@ -21,7 +21,8 @@ export class AddEditEmployeeComponent extends AppComponentBase implements OnInit
     public empService: EmployeeServiceProxy,
     public deptService: DepartmentServiceProxy,
     private fb: FormBuilder,
-    private _dialogRef: MatDialogRef<AddEditEmployeeComponent>) {
+    private _dialogRef: MatDialogRef<AddEditEmployeeComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     super(injector);
   }
   //or provide it globally
@@ -39,6 +40,9 @@ export class AddEditEmployeeComponent extends AppComponentBase implements OnInit
     });
     this.getAllDepartments();
     this.saved = true;
+    if (this.data) {
+      this.employeeForm.patchValue(this.data);
+    }
   }
   getAllDepartments() {
     this.deptService.getAll("", undefined, 0, 10, "")
@@ -56,6 +60,16 @@ export class AddEditEmployeeComponent extends AppComponentBase implements OnInit
         abp.message.error('Unable to complete request try again later');
         this._dialogRef.close(false);
       });
+  }
+  update() {
+    const empToUpdate = { ...this.employeeForm.getRawValue(), id: this.data.id };
+    this.empService.update(empToUpdate)
+    .subscribe((res) => {
+      this._dialogRef.close(true);
+    }, (err) => {
+      abp.message.error('Unable to complete request try again later');
+      this._dialogRef.close(false);
+    });
   }
   myCancel() {
     if (!this.saved) {

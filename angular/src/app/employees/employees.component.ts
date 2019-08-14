@@ -41,7 +41,15 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   }
 
   protected editEmployee(emp: GetAllEmpDTO): void {
-    // this._empService.update()
+    let createOrEditEmployeeDialog;
+
+    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent, { data: emp, disableClose: true });
+
+    createOrEditEmployeeDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.refresh();
+      }
+    });
   }
   protected createEmployee(): void {
 
@@ -65,10 +73,9 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   private showCreateUserDialog(): void {
     let createOrEditEmployeeDialog;
 
-    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent);
+    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent, { disableClose: true });
 
     createOrEditEmployeeDialog.afterClosed().subscribe(result => {
-      debugger;
       if (result) {
         this.refresh();
       }
