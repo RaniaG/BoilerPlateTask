@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using System.Linq;
 using Template.Departments;
+using Abp.Linq.Extensions;
 
 namespace Template.Employees
 {
@@ -30,10 +31,11 @@ namespace Template.Employees
             _objectMapper = objectMapper;
             this.deptDomainService = deptDomainService;
         }
-
+       
         protected override IQueryable<Employee> CreateFilteredQuery(GetEmpFilterDTO input)
         {
             IQueryable<Employee> emps = Repository.GetAll();
+                //.WhereIf(string.IsNullOrEmpty(input.Name), e => e.Name.ToLower().Contains(input.Name.ToLower()));
             if (!string.IsNullOrEmpty(input.Name))
                 emps = emps.Where(e => e.Name.ToLower().Contains( input.Name.ToLower()));
             if (input.DepartmentId != null)

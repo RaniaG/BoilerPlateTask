@@ -42,6 +42,8 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
 import { DepartmentsComponent } from './departments/departments.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { AddEditEmployeeComponent } from './employees/add-edit-employee/add-edit-employee.component';
+import { ErrorStateMatcher } from '@angular/material';
+import { TemplateStateMatcher } from '@shared/Helpers';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,9 @@ import { AddEditEmployeeComponent } from './employees/add-edit-employee/add-edit
     SharedModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [
+    { provide: ErrorStateMatcher, useClass: TemplateStateMatcher }
+  ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -96,7 +100,9 @@ import { AddEditEmployeeComponent } from './employees/add-edit-employee/add-edit
     // users
     CreateUserDialogComponent,
     EditUserDialogComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+    //employees
+    AddEditEmployeeComponent
   ]
 })
 export class AppModule { }

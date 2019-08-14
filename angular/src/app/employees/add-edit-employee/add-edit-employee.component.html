@@ -1,61 +1,118 @@
-<form autocomplete="off" #createUserModal="ngForm" [formGroup]="employeeForm" (ngSubmit)="save()">
-    <h1 mat-dialog-title>Create New Employee</h1>
-    <mat-dialog-content style="width:800px;height:300px;">
-      <mat-tab-group>
-        <mat-tab label="User Details">
-          <br />
-          <div class="row-fluid">
-            <div class="col-md-6">
-              <mat-form-field>
-                <input
-                  matInput
-                 
-                  placeholder="Full Name"
-                  formControlName="name"
-                                 />
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                  matInput
-                  
-                  placeholder="Salary"
-                  formControlName="salary"
-                                 />
-              </mat-form-field>
-              
-            </div>
-            <div class="col-md-6">
-              <mat-form-field>
-                <input
-                  matInput
-                  
-                  placeholder="Title"
-                  formControlName="title"
-                                 />
-              </mat-form-field>
-            </div>
+<form autocomplete="off" #createUserModal="ngForm" [formGroup]="employeeForm" (change)="saved=false">
+  <h1 mat-dialog-title>Create New Employee</h1>
+  <mat-dialog-content style="width:800px;height:300px;">
+    <mat-tab-group>
+      <mat-tab label="User Details">
+        <br />
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Full Name" formControlName="name" [errorStateMatcher]="matcher" />
+              <mat-error *ngIf="employeeForm.get('name').hasError('required')">
+                *full name is required
+              </mat-error>
+              <mat-error
+                *ngIf="!employeeForm.get('name').hasError('required')&&employeeForm.get('name').hasError('maxlength') ">
+                *Max length is 60 characters
+              </mat-error>
+              <mat-error *ngIf="!employeeForm.get('name').hasError('required')
+              &&!employeeForm.get('name').hasError('maxlength')
+              &&employeeForm.get('name').hasError('isAlphabet')">
+                *Full name can only contain letters and spaces
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Salary" formControlName="salary" />
+              <mat-error *ngIf="employeeForm.get('salary').hasError('required')">
+                *Salary is required
+              </mat-error>
+              <mat-error
+                *ngIf="!employeeForm.get('salary').hasError('required')&&employeeForm.get('salary').hasError('isNumber') ">
+                *Salary must be numeric
+              </mat-error>
+            </mat-form-field>
+
           </div>
-        </mat-tab>
-        <!-- <mat-tab [label]="'UserRoles' | localize">
-          <br />
-          <div class="row-fluid">
-            <ng-template ngFor let-role [ngForOf]="roles">
-              <div class="col-sm-6">
-                <div class="checkbox-wrapper">
-                  <mat-checkbox
-                    [checked]="isRoleChecked(role.normalizedName)"
-                    (change)="onRoleChange(role, $event)"
-                  >
-                    {{ role.name }}
-                  </mat-checkbox>
-                </div>
-              </div>
-            </ng-template>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Title" formControlName="title" />
+              <mat-error *ngIf="employeeForm.get('title').hasError('required')">
+                *Title is required
+              </mat-error>
+              <mat-error
+                *ngIf="!employeeForm.get('title').hasError('required')&&employeeForm.get('title').hasError('maxlength') ">
+                *Max length is 20 characters
+              </mat-error>
+              <mat-error *ngIf="!employeeForm.get('title').hasError('required')
+                &&!employeeForm.get('title').hasError('maxlength')
+                &&employeeForm.get('title').hasError('isAlphabet')">
+                *Title can only contain letters and spaces
+              </mat-error>
+            </mat-form-field>
           </div>
-        </mat-tab> -->
-      </mat-tab-group>
-    </mat-dialog-content>
-    <!-- <div mat-dialog-actions align="end">
+        </div>
+        <div class="row no-gutters" formGroupName="address">
+
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Full Address" formControlName="fullAddress" />
+              <mat-error *ngIf="employeeForm.get('address').get('fullAddress').hasError('required')">
+                *FullAddress is required
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Appartment Number" formControlName="appartmentNumber" />
+              <mat-error *ngIf="employeeForm.get('address').get('appartmentNumber').hasError('required')">
+                *Appartment Number is required
+              </mat-error>
+              <mat-error
+                *ngIf="!employeeForm.get('address').get('appartmentNumber').hasError('required')&&employeeForm.get('address').get('appartmentNumber').hasError('isNumber') ">
+                *Appartment Number must be numeric
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Department">
+        <br />
+        <div class="row no-gutters">
+          <div class="col-md-12">
+            <mat-form-field>
+              <mat-label>Select a Department</mat-label>
+              <mat-select formControlName="departmentId">
+                <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                  {{dept.name}}
+                </mat-option>
+                <mat-option [value]="null">None</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button color="primary" (click)="create()" [disabled]="employeeForm.invalid">
+      Save
+    </button>
+    <button mat-button color="primary" (click)="myCancel()">
+      Cancel
+    </button>
+  </mat-dialog-actions>
+
+  <!-- <mat-dialog-actions>
+      <button mat-button mat-dialog-close>No</button>
+      //The mat-dialog-close directive optionally accepts a value as a result for the dialog. 
+      <button mat-button [mat-dialog-close]="true">Yes</button>
+    </mat-dialog-actions>
+   -->
+  <!-- <div mat-dialog-actions align="end">
       <button mat-button type="button" [disabled]="saving" (click)="close(false)">
         Canel
       </button>
@@ -69,5 +126,4 @@
         Save
       </button>
     </div> -->
-  </form>
-  
+</form>

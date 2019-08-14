@@ -1,28 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { TemplateValidators } from '@shared/Helpers';
+import { TemplateValidators, TemplateStateMatcher } from '@shared/Helpers';
+import { AppComponentBase } from '@shared/app-component-base';
+import { EmployeeServiceProxy, DepartmentServiceProxy, PagedResultDtoOfGetAllDeptDTO, GetAllDeptDTO, CreateEmpDTO } from '@shared/service-proxies/service-proxies';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-add-edit-employee',
   templateUrl: './add-edit-employee.component.html',
   styleUrls: ['./add-edit-employee.component.css']
 })
-export class AddEditEmployeeComponent implements OnInit {
+export class AddEditEmployeeComponent extends AppComponentBase implements OnInit {
 
   employeeForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
-
+  departments: GetAllDeptDTO[];
+  empDto: CreateEmpDTO;
+  saved: boolean;
+  constructor(
+    injector: Injector,
+    public empService: EmployeeServiceProxy,
+    public deptService: DepartmentServiceProxy,
+    private fb: FormBuilder,
+    private _dialogRef: MatDialogRef<AddEditEmployeeComponent>) {
+    super(injector);
+  }
+  //or provide it globally
+  matcher = new TemplateStateMatcher();
   ngOnInit() {
     this.employeeForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(60)]],
-      salary: [0, [Validators.required, TemplateValidators.isNumber]],
-      title: ['', [Validators.required, Validators.maxLength(20)]],
+      name: ['', [Validators.required, Validators.maxLength(60), TemplateValidators.isAlphabet]],
+      salary: [null, [Validators.required, TemplateValidators.isNumber()]],
+      title: ['', [Validators.required, Validators.maxLength(20), TemplateValidators.isAlphabet]],
       departmentId: [null],
       address: this.fb.group({
-        fullAddress: ['', [Validators.required, Validators.maxLength(100)]],
-        appartmentNumber: ['', [Validators.required, TemplateValidators.isNumber]]
+        fullAddress: ['', Validators.required],
+        appartmentNumber: [null, [Validators.required, TemplateValidators.isNumber()]]
       })
     });
+    this.getAllDepartments();
+    this.saved = true;
+  }
+  getAllDepartments() {
+    this.deptService.getAll("", undefined, 0, 10, "")
+      .subscribe((result: PagedResultDtoOfGetAllDeptDTO) => {
+        // debugger;
+        this.departments = result.items;
+      });
+  }
+  create() {
+    // debugger;
+    this.empService.create(this.employeeForm.getRawValue())
+      .subscribe((res) => {
+        this._dialogRef.close(true);
+      }, (err) => {
+        abp.message.error('Unable to complete request try again later');
+        this._dialogRef.close(false);
+      });
+  }
+  myCancel() {
+    if (!this.saved) {
+      // debugger;
+      const dialogRef = this._dialogRef;
+      abp.message.confirm('Are you sure you want to save', (res) => {
+        if (res) {
+          dialogRef.close(false);
+        }
+      });
+    } else {
+      this._dialogRef.close(false);
+    }
   }
 
 }

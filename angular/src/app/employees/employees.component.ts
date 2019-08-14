@@ -27,17 +27,17 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
     super(injector);
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._empService.getAll("",undefined,0,10,"")
-    .pipe(
-      finalize(() => {
+    this._empService.getAll("", undefined, 0, 10, "")
+      .pipe(
+        finalize(() => {
           finishedCallback();
-      })
-    )
-    .subscribe((result: PagedResultDtoOfGetAllEmpDTO) => {
-      debugger;
-      this.employees = result.items;
-      this.showPaging(result, pageNumber);
-  });
+        })
+      )
+      .subscribe((result: PagedResultDtoOfGetAllEmpDTO) => {
+        debugger;
+        this.employees = result.items;
+        this.showPaging(result, pageNumber);
+      });
   }
 
   protected editEmployee(emp: GetAllEmpDTO): void {
@@ -53,24 +53,25 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
     abp.message.confirm(
       `Are you sure you want to delete ${entity.name}`,
       (result: boolean) => {
-          if (result) {
-              this._empService.delete(entity.id).subscribe(() => {
-                  abp.notify.success('SuccessfullyDeleted');
-                  this.refresh();
-              });
-          }
+        if (result) {
+          this._empService.delete(entity.id).subscribe(() => {
+            abp.notify.success('SuccessfullyDeleted');
+            this.refresh();
+          });
+        }
       }
-  );
+    );
   }
   private showCreateUserDialog(): void {
     let createOrEditEmployeeDialog;
-   
+
     createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent);
-    
+
     createOrEditEmployeeDialog.afterClosed().subscribe(result => {
-        if (result) {
-            this.refresh();
-        }
+      debugger;
+      if (result) {
+        this.refresh();
+      }
     });
   }
 
