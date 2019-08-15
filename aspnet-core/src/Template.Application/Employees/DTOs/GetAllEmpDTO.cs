@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Template.Departments;
+using Template.Departments.DTOs;
 
 namespace Template.Employees.DTOs
 {
@@ -12,7 +13,7 @@ namespace Template.Employees.DTOs
     {
         public string Name { get; set; }
         public Address Address { get; set; }
-        //public Department Department { get; set; }
+        public GetAllDeptsBriefDTO Department { get; set; }
         public int? DepartmentId { get; set; }
         public double Salary { get; set; }
         public string Title { get; set; }

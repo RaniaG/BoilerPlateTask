@@ -7,12 +7,9 @@ using Template.Employees;
 
 namespace Template.Departments.DTOs
 {
-    [AutoMap(typeof(Department))]
-    public class GetAllDeptDTO: EntityDto<int>
+    [AutoMap(typeof(Employee))]
+    public class ManagerDTO:EntityDto
     {
         public string Name { get; set; }
-        public ManagerDTO Manager { get; set; }
-        public int ManagerId { get; set; }
-
     }
 }

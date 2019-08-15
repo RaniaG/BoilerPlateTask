@@ -13,6 +13,8 @@ using Template.Departments;
 using Abp.Extensions;
 using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Collections.Generic;
+using Template.Departments.DTOs;
 
 namespace Template.Employees
 {
@@ -34,61 +36,15 @@ namespace Template.Employees
        
         protected override IQueryable<Employee> ApplyPaging(IQueryable<Employee> query, GetEmpFilterDTO input)
         {
-            if (input.SkipCount != 0)
-                query = query.Skip(input.SkipCount);
-            if (input.MaxResultCount > 0)
-                query = query.Take(input.MaxResultCount);
-            return query;
-
-            //Try to use paging if available
-            //var pagedInput = input as IPagedResultRequest;
-            //if (pagedInput != null)
-            //{
-
-            //    return query.PageBy(pagedInput);
-            //}
-
-            ////Try to limit query result if available
-            //var limitedInput = input as ILimitedResultRequest;
-            //if (limitedInput != null)
-            //{
-            //    return query.Take(limitedInput.MaxResultCount);
-            //}
-
-            ////No paging
-            //return query;
+            return this.Paging(query, input);     
         }
         protected override IQueryable<Employee> ApplySorting(IQueryable<Employee> query, GetEmpFilterDTO input)
         {
-            //Try to sort query if available
-            //var sortInput = input as ISortedResultRequest;
-
-            if (input != null)
-            {
-                if (!input.Sorting.IsNullOrWhiteSpace())
-                {
-                    StringBuilder sortQuery = new StringBuilder(input.Sorting);
-                    if (input.SortingDirection == SortDirection.desc)
-                        sortQuery.Append(" descending");
-
-                    
-                        return query.OrderBy(sortQuery.ToString());
-
-                }
-            }
-
-            //IQueryable.Task requires sorting, so we should sort if Take will be used.
-            if (input is ILimitedResultRequest)
-            {
-                return query.OrderByDescending(e => e.Id);
-            }
-
-            //No sorting
-            return query;
+            return this.Sorting(query, input);
         }
         protected override IQueryable<Employee> CreateFilteredQuery(GetEmpFilterDTO input)
         {
-            IQueryable<Employee> emps = Repository.GetAll();
+            IQueryable<Employee> emps = Repository.GetAllIncluding(e=>e.Department);
                 //.WhereIf(string.IsNullOrEmpty(input.Name), e => e.Name.ToLower().Contains(input.Name.ToLower()));
             if (!string.IsNullOrEmpty(input.Name))
                 emps = emps.Where(e => e.Name.ToLower().Contains( input.Name.ToLower()));
@@ -138,8 +94,12 @@ namespace Template.Employees
             return  _objectMapper.Map<GetAllEmpDTO>(resultEmp);
         }
 
-       
-        
+        public async Task<IEnumerable<GetAllEmpsBriefDTO>> GetAllBrief()
+        {
+            List<Employee> emps = await Repository.GetAllListAsync();
+            return emps.Select(e => _objectMapper.Map<GetAllEmpsBriefDTO>(e));
+        }
+
     }
   
 }

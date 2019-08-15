@@ -30,14 +30,21 @@ namespace Template.Departments
             _objectMapper = objectMapper;
             this.empDomainService = empDomainService;
         }
-        public override async Task<GetAllDeptDTO> Get(EntityDto<int> input)
+        //public override async Task<GetAllDeptDTO> Get(EntityDto<int> input)
+        //{
+        //    CheckGetPermission();
+        //    //eager loading 
+        //    Department entity = Repository.GetAllIncluding(d => d.Manager).First(d => d.Id == input.Id);
+        //    return MapToEntityDto(entity);
+        //}
+        protected override IQueryable<Department> ApplyPaging(IQueryable<Department> query, GetAllDeptsInputDTO input)
         {
-            CheckGetPermission();
-            //eager loading 
-            Department entity = Repository.GetAllIncluding(d => d.Manager).First(d => d.Id == input.Id);
-            return MapToEntityDto(entity);
+            return this.Paging(query, input);
         }
-
+        protected override IQueryable<Department> ApplySorting(IQueryable<Department> query, GetAllDeptsInputDTO input)
+        {
+            return this.Sorting(query, input);
+        }
         protected override IQueryable<Department> CreateFilteredQuery(GetAllDeptsInputDTO input)
         {
             IQueryable<Department> depts= Repository.GetAllIncluding(d=>d.Manager);
@@ -70,7 +77,11 @@ namespace Template.Departments
             throw new ArgumentException();
 
         }
-
+        public async Task<IEnumerable<GetAllDeptsBriefDTO>>  GetAllBrief()
+        {
+            List<Department> depts = await Repository.GetAllListAsync();
+            return depts.Select(d => _objectMapper.Map< GetAllDeptsBriefDTO>(d));
+        }
 
     }
 }
