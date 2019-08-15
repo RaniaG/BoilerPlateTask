@@ -19,32 +19,59 @@
                 </ul>
             </div>
             <div class="body table-responsive">
+
                 <!--query start-->
-                <div class="row clearfix">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field>
-                                    <input matInput placeholder="Search For Employee Name" [(ngModel)]="keyword"
-                                        name="keyword">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field>
-                                    <mat-select placeholder="Department" [(ngModel)]="isActive" name="isActive">
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option value="2">two</mat-option>
-                                        <mat-option value="3">three</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-12 text-right p-r-25">
-                                <button mat-raised-button color="primary"
-                                    (click)="getDataPage(1)">{{ 'Search' | localize }}</button>
-                            </div>
+
+
+                <form [formGroup]="queryForm">
+                    <div class="row clearfix">
+
+                        <div class="col-md-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Search For Employee Name" formControlName="name">
+                            </mat-form-field>
                         </div>
-                    </form>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-select placeholder="Search by Department" formControlName="departmentId">
+                                    <mat-option [value]="1">one</mat-option>
+                                    <mat-option [value]="2">two</mat-option>
+                                    <mat-option [value]="3">three</mat-option>
+                                    <mat-option [value]="null">All</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+
+                            <mat-form-field>
+                                <mat-select placeholder="Sort By" formControlName="sortBy">
+                                    <mat-option value="name">Name</mat-option>
+                                    <mat-option value="salary">Salary</mat-option>
+                                    <mat-option value="departmentId">Department Id</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12 text-right p-r-25">
+                            <button mat-raised-button color="primary" (click)="getDataPage(1)">Search</button>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="row justify-content-end">
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <mat-select placeholder="Items per page"
+                                (selectionChange)="changeItemsPerPage($event.value)" [value]="10" name="pagesize">
+                                <mat-option [value]="5">5</mat-option>
+                                <mat-option [value]="10">10</mat-option>
+                                <mat-option [value]="25">25</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
                 </div>
+
+
                 <!--query end-->
                 <table class="table table-hover table-striped" [busy]="isTableLoading">
                     <thead>
@@ -94,7 +121,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
+                <div class="abp-pagination-controls-wrapper">
                     <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
                     </abp-pagination-controls>
                 </div>

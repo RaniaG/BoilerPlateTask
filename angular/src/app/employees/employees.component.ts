@@ -6,6 +6,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { EmployeeServiceProxy, PagedResultDtoOfGetAllEmpDTO, GetAllEmpDTO } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-employees',
@@ -17,16 +18,31 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   employees: GetAllEmpDTO[] = [];
   keyword = '';
   department: number;
-
+  queryForm: FormGroup;
   constructor(
     injector: Injector,
     private _empService: EmployeeServiceProxy,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private fb: FormBuilder
   ) {
     super(injector);
+    this.queryForm = this.fb.group({
+      name: [''],
+      departmentId: [null],
+      sortBy: ['']
+    });
   }
+  changeItemsPerPage(items: number) {
+    // debugger;
+    this.pageSize = items;
+    this.getDataPage(1);
+  }
+
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._empService.getAll()
+    const query = this.queryForm.getRawValue();
+    console.log(query);
+    this._empService.getAll(query.name, query.departmentId, request.skipCount, request.maxResultCount, query.sortBy)
       .pipe(
         finalize(() => {
           finishedCallback();
@@ -79,6 +95,5 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
       }
     });
   }
-
 
 }

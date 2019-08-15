@@ -749,7 +749,7 @@ export class EmployeeServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&";
-        if (departmentId !== undefined)
+        if (departmentId !== undefined&&departmentId!==null)
             url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&";
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
