@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, TypeaheadModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -44,6 +44,8 @@ import { EmployeesComponent } from './employees/employees.component';
 import { AddEditEmployeeComponent } from './employees/add-edit-employee/add-edit-employee.component';
 import { ErrorStateMatcher } from '@angular/material';
 import { TemplateStateMatcher } from '@shared/Helpers';
+import { AddEditDepartmentComponent } from './departments/add-edit-department/add-edit-department.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,8 @@ import { TemplateStateMatcher } from '@shared/Helpers';
     ResetPasswordDialogComponent,
     EmployeesComponent,
     DepartmentsComponent,
-    AddEditEmployeeComponent
+    AddEditEmployeeComponent,
+    AddEditDepartmentComponent
   ],
   imports: [
     CommonModule,

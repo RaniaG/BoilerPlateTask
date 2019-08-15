@@ -54,6 +54,7 @@ import {
 import { BlockDirective } from './directives/block.directive';
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
+import { TypeaheadModule } from 'ngx-bootstrap';
 @NgModule({
     imports: [
         CommonModule,
@@ -94,7 +95,7 @@ import { EqualValidator } from './directives/equal-validator.directive';
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,
-        MatTreeModule,
+        MatTreeModule
     ],
     declarations: [
         AbpPaginationControlsComponent,
@@ -147,7 +148,7 @@ import { EqualValidator } from './directives/equal-validator.directive';
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        ScrollingModule,
+        ScrollingModule
     ]
 })
 export class SharedModule {

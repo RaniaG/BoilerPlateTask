@@ -10,6 +10,7 @@ import {
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employees',
@@ -17,10 +18,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./employees.component.css'],
   animations: [appModuleAnimation()]
 })
-export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> {
+export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO>  {
   employees: GetAllEmpDTO[] = [];
-  keyword = '';
-  department: number;
+
   queryForm: FormGroup;
   departments: GetAllDeptsBriefDTO[];
   constructor(
@@ -28,16 +28,24 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
     private _empService: EmployeeServiceProxy,
     public _deptService: DepartmentServiceProxy,
     private _dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     super(injector);
+    const deptId = this.route.snapshot.queryParams.departmentId ? +this.route.snapshot.queryParams.departmentId : null;
+    // debugger;
     this.queryForm = this.fb.group({
       name: [''],
-      departmentId: [null],
+      departmentId: [deptId],
       sortBy: ['id'],
       sortDirection: [0]
     });
+    console.log(this.queryForm);
   }
+  // ngOnInit() {
+  //   super.ngOnInit();
+  // }
+
   changeItemsPerPage(items: number) {
     // debugger;
     this.pageSize = items;
