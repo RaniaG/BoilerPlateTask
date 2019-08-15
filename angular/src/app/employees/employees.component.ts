@@ -29,7 +29,8 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
     this.queryForm = this.fb.group({
       name: [''],
       departmentId: [null],
-      sortBy: ['']
+      sortBy: ['id'],
+      sortDirection: [0]
     });
   }
   changeItemsPerPage(items: number) {
@@ -42,7 +43,7 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     const query = this.queryForm.getRawValue();
     console.log(query);
-    this._empService.getAll(query.name, query.departmentId, request.skipCount, request.maxResultCount, query.sortBy)
+    this._empService.getAll(query.name, query.departmentId, request.skipCount, request.maxResultCount, query.sortBy, query.sortDirection)
       .pipe(
         finalize(() => {
           finishedCallback();

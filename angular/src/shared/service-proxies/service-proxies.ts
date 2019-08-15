@@ -742,14 +742,19 @@ export class EmployeeServiceProxy {
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @param sorting (optional) 
+     * @param sortingDirection (optional) 
      * @return Success
      */
-    getAll(name?: string | null | undefined, departmentId?: number | null | undefined, skipCount?: number | null | undefined,
-        maxResultCount?: number | null | undefined, sorting?: string | null | undefined): Observable<PagedResultDtoOfGetAllEmpDTO> {
+    getAll(name: string | null | undefined,
+        departmentId: number | null | undefined,
+        skipCount: number | null | undefined,
+        maxResultCount: number | null | undefined,
+        sorting: string | null | undefined,
+        sortingDirection: SortingDirection | null | undefined): Observable<PagedResultDtoOfGetAllEmpDTO> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&";
-        if (departmentId !== undefined&&departmentId!==null)
+        if (departmentId !== undefined && departmentId !== null)
             url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&";
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
@@ -757,6 +762,8 @@ export class EmployeeServiceProxy {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (sortingDirection !== undefined)
+            url_ += "SortingDirection=" + encodeURIComponent("" + sortingDirection) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: any = {
@@ -4774,6 +4781,11 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
 export interface IPagedResultDtoOfUserDto {
     totalCount: number | undefined;
     items: UserDto[] | undefined;
+}
+
+export enum SortingDirection {
+    _0 = 0,
+    _1 = 1,
 }
 
 export enum IsTenantAvailableOutputState {

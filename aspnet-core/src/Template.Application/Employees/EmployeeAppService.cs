@@ -2,17 +2,17 @@
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Template.Employees.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Threading.Tasks;
 using Abp.ObjectMapping;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.JsonPatch.Operations;
+
 using System.Linq;
 using Template.Departments;
-using Abp.Linq.Extensions;
+using Abp.Extensions;
+using System.Linq.Dynamic.Core;
+using System.Text;
 
 namespace Template.Employees
 {
@@ -58,7 +58,34 @@ namespace Template.Employees
             ////No paging
             //return query;
         }
-        
+        protected override IQueryable<Employee> ApplySorting(IQueryable<Employee> query, GetEmpFilterDTO input)
+        {
+            //Try to sort query if available
+            //var sortInput = input as ISortedResultRequest;
+
+            if (input != null)
+            {
+                if (!input.Sorting.IsNullOrWhiteSpace())
+                {
+                    StringBuilder sortQuery = new StringBuilder(input.Sorting);
+                    if (input.SortingDirection == SortDirection.desc)
+                        sortQuery.Append(" descending");
+
+                    
+                        return query.OrderBy(sortQuery.ToString());
+
+                }
+            }
+
+            //IQueryable.Task requires sorting, so we should sort if Take will be used.
+            if (input is ILimitedResultRequest)
+            {
+                return query.OrderByDescending(e => e.Id);
+            }
+
+            //No sorting
+            return query;
+        }
         protected override IQueryable<Employee> CreateFilteredQuery(GetEmpFilterDTO input)
         {
             IQueryable<Employee> emps = Repository.GetAll();
