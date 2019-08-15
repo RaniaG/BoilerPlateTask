@@ -3,7 +3,10 @@ import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listin
 
 import { MatDialog } from '@angular/material';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { EmployeeServiceProxy, PagedResultDtoOfGetAllEmpDTO, GetAllEmpDTO } from '@shared/service-proxies/service-proxies';
+import {
+  EmployeeServiceProxy, PagedResultDtoOfGetAllEmpDTO,
+  GetAllEmpDTO, DepartmentServiceProxy, GetAllDeptsBriefDTO
+} from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -19,9 +22,11 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   keyword = '';
   department: number;
   queryForm: FormGroup;
+  departments: GetAllDeptsBriefDTO[];
   constructor(
     injector: Injector,
     private _empService: EmployeeServiceProxy,
+    public _deptService: DepartmentServiceProxy,
     private _dialog: MatDialog,
     private fb: FormBuilder
   ) {
@@ -43,7 +48,12 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     const query = this.queryForm.getRawValue();
     console.log(query);
-    this._empService.getAll(query.name, query.departmentId, request.skipCount, request.maxResultCount, query.sortBy, query.sortDirection)
+    const deptId = query.departmentId === null ? undefined : query.departmentId; // to fix error
+    this._deptService.getAllBrief()
+      .subscribe((result: GetAllDeptsBriefDTO[]) => {
+        this.departments = result;
+      });
+    this._empService.getAll(query.name, deptId, request.skipCount, request.maxResultCount, query.sortBy, query.sortDirection)
       .pipe(
         finalize(() => {
           finishedCallback();
@@ -58,7 +68,8 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   protected editEmployee(emp: GetAllEmpDTO): void {
     let createOrEditEmployeeDialog;
 
-    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent, { data: emp, disableClose: true });
+    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent,
+      { data: { employee: emp, departments: this.departments }, disableClose: true });
 
     createOrEditEmployeeDialog.afterClosed().subscribe(result => {
       if (result) {
@@ -88,7 +99,8 @@ export class EmployeesComponent extends PagedListingComponentBase<GetAllEmpDTO> 
   private showCreateUserDialog(): void {
     let createOrEditEmployeeDialog;
 
-    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent, { disableClose: true });
+    createOrEditEmployeeDialog = this._dialog.open(AddEditEmployeeComponent,
+      { disableClose: true, data: { departments: this.departments } });
 
     createOrEditEmployeeDialog.afterClosed().subscribe(result => {
       if (result) {

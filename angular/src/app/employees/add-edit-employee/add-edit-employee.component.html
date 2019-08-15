@@ -98,7 +98,7 @@
 
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="primary" (click)="data?update():create()" [disabled]="employeeForm.invalid">
+    <button mat-button color="primary" (click)="data.employee?update():create()" [disabled]="employeeForm.invalid">
       Save
     </button>
     <button mat-button color="primary" (click)="myCancel()">

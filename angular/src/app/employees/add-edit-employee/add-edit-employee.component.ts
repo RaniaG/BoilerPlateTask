@@ -2,7 +2,7 @@ import { Component, OnInit, Injector, Inject } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TemplateValidators, TemplateStateMatcher } from '@shared/Helpers';
 import { AppComponentBase } from '@shared/app-component-base';
-import { EmployeeServiceProxy, DepartmentServiceProxy, PagedResultDtoOfGetAllDeptDTO, GetAllDeptDTO, CreateEmpDTO } from '@shared/service-proxies/service-proxies';
+import { EmployeeServiceProxy, DepartmentServiceProxy, PagedResultDtoOfGetAllDeptDTO, GetAllDeptDTO, CreateEmpDTO, GetAllDeptsBriefDTO } from '@shared/service-proxies/service-proxies';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -13,7 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class AddEditEmployeeComponent extends AppComponentBase implements OnInit {
 
   employeeForm: FormGroup;
-  departments: GetAllDeptDTO[];
+  departments: GetAllDeptsBriefDTO[];
   empDto: CreateEmpDTO;
   saved: boolean;
   constructor(
@@ -38,17 +38,20 @@ export class AddEditEmployeeComponent extends AppComponentBase implements OnInit
         appartmentNumber: [null, [Validators.required, TemplateValidators.isNumber()]]
       })
     });
-    this.getAllDepartments();
+    // this.getAllDepartments();
+    // debugger;
+    this.departments = this.data.departments;
+
     this.saved = true;
-    if (this.data) {
-      this.employeeForm.patchValue(this.data);
+    if (this.data.employee) {
+      this.employeeForm.patchValue(this.data.employee);
     }
   }
   getAllDepartments() {
-    this.deptService.getAll("", undefined, 0, 10, "")
-      .subscribe((result: PagedResultDtoOfGetAllDeptDTO) => {
+    this.deptService.getAllBrief()
+      .subscribe((result: GetAllDeptsBriefDTO[]) => {
         // debugger;
-        this.departments = result.items;
+        this.departments = result;
       });
   }
   create() {
@@ -62,14 +65,14 @@ export class AddEditEmployeeComponent extends AppComponentBase implements OnInit
       });
   }
   update() {
-    const empToUpdate = { ...this.employeeForm.getRawValue(), id: this.data.id };
+    const empToUpdate = { ...this.employeeForm.getRawValue(), id: this.data.employee.id };
     this.empService.update(empToUpdate)
-    .subscribe((res) => {
-      this._dialogRef.close(true);
-    }, (err) => {
-      abp.message.error('Unable to complete request try again later');
-      this._dialogRef.close(false);
-    });
+      .subscribe((res) => {
+        this._dialogRef.close(true);
+      }, (err) => {
+        abp.message.error('Unable to complete request try again later');
+        this._dialogRef.close(false);
+      });
   }
   myCancel() {
     if (!this.saved) {

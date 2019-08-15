@@ -3,7 +3,7 @@
         <div class="card main-content">
             <div class="header">
                 <h2>Employees </h2>
-                <ul class="header-dropdown m-r--5">
+                <!-- <ul class="header-dropdown m-r--5">
                     <li>
                         <button mat-icon-button [matMenuTriggerFor]="headerMenu"
                             class="header-dropdown-mat-icon-button">
@@ -16,7 +16,11 @@
                             </button>
                         </mat-menu>
                     </li>
-                </ul>
+                </ul> -->
+
+                <button mat-mini-fab color="primary" class="pull-right" (click)="showCreateUserDialog()">
+                    <mat-icon>add</mat-icon>
+                </button>
             </div>
             <div class="body table-responsive">
 
@@ -34,9 +38,8 @@
                         <div class="col-md-6">
                             <mat-form-field>
                                 <mat-select placeholder="Search by Department" formControlName="departmentId">
-                                    <mat-option [value]="1">one</mat-option>
-                                    <mat-option [value]="2">two</mat-option>
-                                    <mat-option [value]="3">three</mat-option>
+                                    <mat-option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}
+                                    </mat-option>
                                     <mat-option [value]="null">All</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -77,8 +80,8 @@
                                 <mat-option [value]="25">25</mat-option>
                             </mat-select>
                         </mat-form-field>
-
                     </div>
+
                 </div>
 
 
@@ -90,7 +93,7 @@
                             <th>Name</th>
                             <th>Title</th>
                             <th>Salary</th>
-                            <th>Department Number</th>
+                            <th>Department</th>
                             <th>Address</th>
                             <th>Actions</th>
                         </tr>
@@ -110,7 +113,7 @@
                             <td>{{ employee.name }}</td>
                             <td>{{ employee.title }}</td>
                             <td>{{ employee.salary }}</td>
-                            <td>{{ employee.departmentId }}</td>
+                            <td>{{ employee.department? employee.department.name : '-' }}</td>
                             <td>{{employee.address.appartmentNumber}}, {{ employee.address.fullAddress}}</td>
 
                             <td>
@@ -135,9 +138,7 @@
                     <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
                     </abp-pagination-controls>
                 </div>
-                <button mat-mini-fab color="primary" class="pull-right" (click)="showCreateUserDialog()">
-                    <mat-icon>add</mat-icon>
-                </button>
+
             </div>
         </div>
     </div>
