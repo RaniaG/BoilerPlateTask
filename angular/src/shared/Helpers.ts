@@ -11,6 +11,12 @@ export class TemplateValidators {
   static isAlphabet(control: AbstractControl): { [key: string]: any } | null {
     return /^[a-zA-Z\s]*$/.test(control.value) ? null : { 'isAlphabet': { value: control.value } };
   }
+  static isInArray(arr: string[]) {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      let val = control.value as string;
+      return arr.find(v => v.toLowerCase() === val.toLowerCase()) ? { 'isInArray': { value: "value not in array" } } : null;
+    };
+  }
 }
 
 export class TemplateStateMatcher implements ErrorStateMatcher {

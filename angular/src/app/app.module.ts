@@ -46,6 +46,7 @@ import { ErrorStateMatcher } from '@angular/material';
 import { TemplateStateMatcher } from '@shared/Helpers';
 import { AddEditDepartmentComponent } from './departments/add-edit-department/add-edit-department.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CanDeactivateAddEditDepartment } from './departments/add-edit-department/can-deactivate-add-edit-department';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     NgxPaginationModule
   ],
   providers: [
-    { provide: ErrorStateMatcher, useClass: TemplateStateMatcher }
+    { provide: ErrorStateMatcher, useClass: TemplateStateMatcher },
+    CanDeactivateAddEditDepartment
   ],
   entryComponents: [
     // tenants

@@ -3,7 +3,7 @@
         <div class="card main-content">
             <div class="header">
                 <h2>Departments </h2>
-                <button mat-mini-fab color="primary" class="pull-right" (click)="showCreateUserDialog()">
+                <button mat-mini-fab color="primary" class="pull-right" [routerLink]="['add']">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -41,7 +41,7 @@
                                     <mat-icon>menu</mat-icon>
                                 </button>
                                 <mat-menu #actionsMenu="matMenu">
-                                    <button mat-menu-item (click)="editDepartment(dept)">
+                                    <button mat-menu-item [routerLink]="['edit',dept.id]">
                                         <mat-icon>edit</mat-icon>
                                         <span>Edit</span>
                                     </button>

@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card main-content">
             <div class="header">
-                <h2> Add or Edit Department </h2>
+                <h2> {{department?'Edit':'Add'}} Department </h2>
                 <!-- <button mat-mini-fab color="primary" class="pull-right" (click)="showCreateUserDialog()">
                     <mat-icon>add</mat-icon>
                 </button> -->
@@ -10,25 +10,46 @@
             <div class="body">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, enim ducimus provident
-                        dignissimos facilis, dolorum molestiae et quo voluptatibus accusantium aspernatur laudantium
-                        nobis veritatis maiores earum animi architecto ex distinctio?
-                        <form [formGroup]="deptForm">
+                        <form [formGroup]="deptForm" (change)="formSaved=false">
                             <mat-form-field>
                                 <input matInput placeholder="Department Name" formControlName="name" />
-                                <!-- <mat-error *ngIf="employeeForm.get('name').hasError('required')">
-                                          *full name is required
-                                        </mat-error> -->
-
+                                <mat-error *ngIf="deptForm.get('name').hasError('required')">
+                                    *Department Name is required
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="deptForm.get('name').hasError('isAlphabet') && !deptForm.get('name').hasError('required')">
+                                    *Department Name must be only letters
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Manager" [typeahead]="dumdata"
-                                    formControlName="managerId" />
-                                <!-- <mat-error *ngIf="employeeForm.get('name').hasError('required')">
-                                              *full name is required
-                                            </mat-error> -->
 
+                                <!-- <input type="text" placeholder="Manager" matInput [matAutocomplete]="auto"
+                                    [formControl]="managerNameControl" (keyup)="validManager=false" #managerNameInput />
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+                                    <mat-option *ngFor="let option of filteredOptions | async"
+                                        [value]=" option.id+' | '+ option.name" [id]="option.id">
+                                        {{option.id}} | {{option.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="managerNameControl.hasError('required')">
+                                    *Manager is required
+                                </mat-error> -->
+                                <mat-label>Manager</mat-label>
+                                <mat-select formControlName="managerId">
+                                    <mat-option *ngFor="let emp of employees" [value]="emp.id">{{emp.id }} |
+                                        {{emp.name}}</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="deptForm.get('managerId').hasError('required')">
+                                    *Manager is required
+                                </mat-error>
                             </mat-form-field>
+
+
+                            <mat-dialog-actions>
+                                <button mat-button color="primary" (click)="onSave()" [disabled]="deptForm.invalid">
+                                    Save
+                                </button>
+                            </mat-dialog-actions>
                         </form>
                     </div>
                 </div>

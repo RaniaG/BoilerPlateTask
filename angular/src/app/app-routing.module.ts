@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { EmployeesComponent } from './employees/employees.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { AddEditDepartmentComponent } from './departments/add-edit-department/add-edit-department.component';
+import { CanDeactivateAddEditDepartment } from './departments/add-edit-department/can-deactivate-add-edit-department';
 
 @NgModule({
     imports: [
@@ -22,8 +23,11 @@ import { AddEditDepartmentComponent } from './departments/add-edit-department/ad
                     { path: 'home', component: HomeComponent },
                     { path: 'employees', component: EmployeesComponent },
                     { path: 'departments', component: DepartmentsComponent },
-                    { path: 'departments/add', component: AddEditDepartmentComponent },
-                    { path: 'departments/edit/:id', component: AddEditDepartmentComponent },
+                    { path: 'departments/add', component: AddEditDepartmentComponent, canDeactivate: [CanDeactivateAddEditDepartment] },
+                    {
+                        path: 'departments/edit/:id', component: AddEditDepartmentComponent,
+                        canDeactivate: [CanDeactivateAddEditDepartment]
+                    },
 
                     // {
                     //     path: 'departments', children: [

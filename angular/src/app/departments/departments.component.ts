@@ -1,9 +1,11 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { GetAllDeptDTO, DepartmentServiceProxy, SortingDirection, PagedResultDtoOfGetAllDeptDTO } from '@shared/service-proxies/service-proxies';
+import { GetAllDeptDTO, DepartmentServiceProxy, SortingDirection, PagedResultDtoOfGetAllDeptDTO, GetAllEmpsBriefDTO } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { AddEditDepartmentComponent } from './add-edit-department/add-edit-department.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TemplateValidators } from '@shared/Helpers';
 
 @Component({
   selector: 'app-departments',
@@ -13,11 +15,14 @@ import { AddEditDepartmentComponent } from './add-edit-department/add-edit-depar
 export class DepartmentsComponent extends PagedListingComponentBase<GetAllDeptDTO>  {
 
   departments: GetAllDeptDTO[];
+
   constructor(injector: Injector,
     private _deptService: DepartmentServiceProxy,
+    private fb: FormBuilder,
     private _dialog: MatDialog,
   ) {
     super(injector);
+
   }
   editDepartment(entity: GetAllDeptDTO) {
 
