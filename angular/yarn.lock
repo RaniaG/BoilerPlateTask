@@ -614,9 +614,10 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abp-ng2-module@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/abp-ng2-module/-/abp-ng2-module-3.2.2.tgz#e82ed131795e2f11f7540e8396adcfedd9718e72"
+abp-ng2-module@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/abp-ng2-module/-/abp-ng2-module-4.0.0.tgz#de1d952ce91847dc58ac2929654fee2a6c7a4525"
+  integrity sha512-k/KjkAWrNz2Cg2c5IQtEKdKDQA3LGW7nncJneeUz+Hl0KrV+sOi9c2LnaOL0Q7q0hCfUPhO9GkEUrQGpF7c5gQ==
 
 abp-web-resources@^3.8.2:
   version "3.8.2"
@@ -1195,9 +1196,10 @@ bootstrap-select@^1.12.2:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/bootstrap-select/-/bootstrap-select-1.13.1.tgz#f59c02926fb5ac6356b9d1cdbc5384c2f013d9ba"
 
-bootstrap@^3.3.7:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+bootstrap@^4.3.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.6.1.tgz#bc25380c2c14192374e8dec07cf01b2742d222a2"
+  integrity sha512-0dj+VgI9Ecom+rvvpNZ4MUZJz8dcX7WCX+eTID9+/8HgOkv3dsRzi8BGeZJCQU6flWQVYxwTQnEZFrmJSEO7og==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -4447,9 +4449,10 @@ moment-timezone@^0.5.13:
   dependencies:
     moment ">= 2.9.0"
 
-moment@*, "moment@>= 2.9.0", moment@>=2.14.0, moment@^2.10.2, moment@^2.18.1:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+moment@*, "moment@>= 2.9.0", moment@>=2.14.0, moment@^2.10.2, moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 morris.js@^0.5.0:
   version "0.5.0"
@@ -4545,9 +4548,10 @@ neo-async@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
 
-ngx-bootstrap@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
+ngx-bootstrap@^5.1.0:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-5.6.2.tgz#e648f826d303c29255c16772676efd30695740d1"
+  integrity sha512-6YHXtdXkGH3w0NQoaUgNYAcrj064Lv5RTO284ha/hvpNTrh55yQz2cVh0VvwBk3MjyY2tdmLH4SuCJDszYdYiw==
 
 ngx-pagination@^3.0.3:
   version "3.1.1"
